@@ -1,6 +1,6 @@
 export default {
   title: 'PROBE',             
-  description: 'Connect suitable batteries to their next useful life.',          // ← replace with your actual description
+  description: 'Connect suitable batteries to their next useful life.',         
 
   themeConfig: {
     nav: [],
