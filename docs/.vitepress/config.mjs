@@ -1,4 +1,5 @@
 export default {
+  base:'/HERckers_Technical_Documentation/',
   title: 'PROBE',             
   description: 'Connect suitable batteries to their next useful life.',         
 
