@@ -14,7 +14,7 @@ By combining **IoT-enabled battery testing, a backend API, inventory management,
 
 <div class="probe-buttons" style="justify-content: flex-start;">
   <a href="./hardware" class="probe-button primary">Explore the Hardware →</a>
-  <a href="./backend" class="probe-button primary">Explore the Backend →</a>
+  <a href="./backend/overview" class="probe-button primary">Explore the Backend →</a>
 </div>
 
 ## Platform Highlights

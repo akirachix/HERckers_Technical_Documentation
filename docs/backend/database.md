@@ -8,7 +8,7 @@ The backend uses **SQLAlchemy ORM** to interact with the database, while **Alemb
 
 The database relationships are represented in the Entity Relationship Diagram below.
 
-![Probe Database ERD](/images/Entity-Relationship-Diagram.jpeg)
+![Probe Database ERD](/images/images/Entity-Relationship-Diagram.jpg)
 
 > The ERD is generated from the PostgreSQL database schema and represents the relationships between Probe's core entities.
 
