@@ -16,7 +16,25 @@
   --vp-c-bg-soft: #DFF0F7;
   --vp-c-bg-alt: #DFF0F7;
 }
+.VPDoc img[alt*="Architecture"],
+.VPDoc img[alt*="System"] {
+  width: 100%;
+  max-width: none;
+  border-radius: 8px;
+  border: 1px solid #DFF0F7;
+  cursor: zoom-in;
+}
 
+/* Medium-zoom overlay fixes */
+.medium-zoom-overlay {
+  z-index: 999;
+}
+
+.medium-zoom-image--opened {
+  max-width: 95vw !important;
+  max-height: 95vh !important;
+  z-index: 1000;
+}
 
 .VPDoc,
 .VPDoc p,

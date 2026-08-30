@@ -2,6 +2,51 @@
 
 Probe implements security measures across authentication, password storage, authorization, cross-origin access, and application configuration. These controls protect user accounts, API endpoints, and sensitive system configuration.
 
+---
+
+##  Security Architecture Diagram
+
+The diagram below illustrates Probe's security architecture, organized into distinct zones that separate users, perimeter defenses, trusted application logic, and data storage.
+
+![Probe Security Architecture](/images/SAD-Service.jpg)
+
+### Users / External Zone
+
+This zone represents the people and devices interacting with Probe from outside the system: Recyclers, Inventory Managers (UPS Company), System Admins, and connected Battery Sensors. All communication from this zone to the platform is encrypted using **HTTPS + TLS 1.3**.
+
+### Edge / Perimeter Security Zone
+
+This zone forms the first line of defense between external users and the trusted application layer. It includes:
+
+* **Firewall / WAF** – Provides IP allowlisting, SQL injection prevention, rate limiting (per IP/per router), DDoS protection, and exploit protection.
+* **API Gateway** – Handles rate limiting, TLS termination, request routing, request size limits, and authentication enforcement before requests reach the application.
+* **HiveMQ Broker Endpoint** – Enforces payload restrictions (maximum message sizes for incoming telemetry) and connection throttling (caps the maximum connection rate per sensor node) to prevent buffer overruns and abuse from IoT devices.
+
+### Trusted Application Zone
+
+This zone contains Probe's core authenticated logic, split into several responsibilities:
+
+* **Authentication & Session** – Uses short-lived session tokens (5–15 minutes) to mitigate session hijacking, bcrypt password hashing, strong password entropy requirements, and multi-factor authentication (MFA).
+* **Authorization** – Enforces role-based access control (separating Recycler vs. Inventory Manager permissions) and object-level authorization, ensuring an Inventory Manager can only modify resources within their designated scope.
+* **Audit and Event Logging** – Centrally tracks who triggered an action, what parameters were passed, when it occurred, and where (module target). Logs are written directly to decoupled console/file streams to isolate logs from runtime code interference.
+* **JWT Management** – Tokens are encrypted with asymmetric algorithms (RS256) for tamper-proofing, never expose internal metadata or database IDs in the payload, and use cryptographically signed JSON Web Tokens.
+* **Core Application Modules** – The Battery Registration Module (strict input validation and sanitization of scanned barcodes), State of Health (SoH) Module (secure compilation of the SoH formula to prevent unauthorized modification of execution parameters), and Battery Booking Module (mutex-locking mechanisms during allocation processing to eliminate race conditions and double-booking exploits).
+* **Data Retention** – Defines how long different data types are kept: PWA local storage clears immediately upon logout or session expiration; telemetry and sensor data are retained 30–90 days; State of Health and availability data persist permanently until physical battery dispatch; system logs and audit trails are kept for 90 days; and operational/transactional data (scanned barcodes, profile configurations, UPS booking records) are retained for 1 to 5 years.
+
+### Data Zones
+
+This zone contains Probe's persistent storage and backup systems, communicating with the Trusted Application Zone over an encrypted (TLS 1.3) channel.
+
+* **PostgreSQL Database** – Encrypted at rest, enforces least-privilege access, applies role-based access between modules, and has audit logging enabled.
+* **Data Classification** – Data is categorized by sensitivity:
+  * **Identity Data (Restricted):** Recycler name, email and password, device serial, password hashes, MFA codes.
+  * **Operational Data (Internal use):** Booking status, timestamps, allocation assignments, diagnostic/SoH logs.
+  * **Telemetry Data (Lower sensitivity):** Temperature, voltage, current readings, raw MQTT payloads, short retention.
+* **Cache / Session Storage** – Uses Redis for session tokens, synced device data (10-day retention), and platform config cache (6-month retention).
+* **Backup Storage** – Data is backed up to cloud storage (Supabase), providing redundancy beyond the primary database.
+
+---
+
 ##  Password Security
 
 User passwords are never stored as plain text.
@@ -115,6 +160,7 @@ Development environments may include:
 ```text
 http://localhost:3000
 http://127.0.0.1:3000
+https://probe-herckers-3325e295df63.herokuapp.com
 ```
 
 The deployed frontend can also be added to the allowed origins.

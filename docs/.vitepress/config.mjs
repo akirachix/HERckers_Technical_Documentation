@@ -22,7 +22,8 @@ export default {
               { text: 'API Reference', link: '/backend/api-reference' },
               { text: 'Database', link: '/backend/database' },
               { text: 'Testing', link: '/backend/testing' },
-              { text: 'Deployment', link: '/backend/deployment' }
+              { text: 'Deployment', link: '/backend/deployment' },
+              { text: 'Code Standards', link: '/backend/code-standards' }
             ]
           },
           { text: 'Frontend Web', link: '/frontend-web' },
@@ -30,7 +31,6 @@ export default {
           { text: 'Frontend Mobile', link: '/mobile' },
           { text: 'Security', link: '/security' },
           { text: 'Integration', link: '/integration' },
-          { text: 'Code Standards', link: '/code-standards' },
           { text: 'Deployment', link: '/deployment' },
           { text: 'QA', link: '/qa' },
           
