@@ -46,7 +46,7 @@ npm run dev
 The dashboard will be available at:
 
 ```text
-https://probe-herckers-3325e295df63.herokuapp.com
+https://herckersdashboard-3-fue8h51cl-gracemwais-projects.vercel.app
 ```
 
 ---
