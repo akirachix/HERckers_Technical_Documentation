@@ -398,11 +398,14 @@ Centralizing network communication reduces duplicated request logic and provides
 
 ##  Code Standards
 
-Frontend code follows the project-wide naming conventions, folder structure, and error handling patterns documented in [Code Standards](../code-standards).
+Frontend code follows the project-wide naming conventions, folder structure, and error handling patterns outlined below.
 
-Key frontend-specific points:
-
+### Naming Conventions & Structure
 * Components use `PascalCase.tsx` (e.g., `BookingForm.tsx`)
 * Utility files use `camelCase.ts` (e.g., `api.ts`)
-* API requests are wrapped in `try/catch`, with user-facing error messages rather than raw backend errors surfaced to the UI
+* Style files use CSS Modules with `kebab-case.module.css` (e.g., `landing-page.module.css`)
+### Error Handling & API Patterns
+* API requests are wrapped in `try/catch` blocks.
+* User-facing error messages must be human-readable rather than surfacing raw backend errors to the UI.
+* Fallback UI components (like Error Boundaries) should handle unexpected runtime crashes.
 
