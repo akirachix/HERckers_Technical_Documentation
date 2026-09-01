@@ -91,6 +91,48 @@ The mobile interface provides access to Probe functionality from mobile devices 
 
 ---
 
+##  Modules
+
+Probe's backend is organized into distinct modules, each responsible for a specific part of the system's functionality. These modules are coordinated through the FastAPI backend and API layer.
+
+### User Management Module
+
+Handles admin-facing user operations. It processes requests to view and edit user records, verifies changes, and returns confirmation once user details have been successfully updated.
+
+**Responsibilities:**
+* Retrieve the user list for the admin interface
+* Process user edit requests
+* Verify and persist updated user records to the database
+
+### Battery Registration Module
+
+Handles the registration of batteries into the system when a recycler scans or selects a battery profile.
+
+**Responsibilities:**
+* Receive scanned barcode or selected battery profile data
+* Verify battery details
+* Register the battery for testing and tracking
+
+### State of Health (SoH) Module
+
+Processes raw battery telemetry received from the hardware pipeline and calculates each battery's State of Health using a predefined formula.
+
+**Responsibilities:**
+* Subscribe to tested battery data published through the MQTT broker
+* Apply the SoH calculation formula to incoming readings
+* Store the resulting battery health data for use across the platform
+
+### Battery Booking Module
+
+Manages the booking workflow for UPS companies and inventory managers, from viewing available batteries to validating and allocating reserved stock.
+
+**Responsibilities:**
+* Retrieve available battery data for browsing
+* Process booking and allocation requests
+* Validate and reserve batteries against inventory status
+
+---
+
 ## Data Flow
 
 Probe has several connected data flows. The most important flows are authentication, battery testing, and battery booking.
@@ -231,3 +273,66 @@ Probe's architecture is designed around several principles:
 * **API-driven communication:** Frontend applications communicate with the backend through REST APIs.
 * **Persistent data management:** Battery, user, testing, inventory, and booking data are stored in PostgreSQL.
 * **Asynchronous telemetry:** MQTT provides lightweight communication for IoT sensor data.
+
+
+---
+
+##  Design Guidelines
+
+Probe follows a consistent set of visual design principles and brand guidelines to maintain a cohesive look and feel across the web dashboard, mobile application, and documentation.
+
+![Probe Style Guide](/images/Style-Guide.jpg)
+
+### Product Logo
+
+The PROBE logo combines the wordmark with a signal/wireless icon, reflecting the platform's IoT-connected battery testing capability.
+
+The logo is available for both light and dark backgrounds:
+
+* **Dark background:** white wordmark on a dark navy/black background
+* **Light/brand background:** white wordmark on Probe Blue background
+
+The logo should be displayed with adequate spacing and should not be stretched, recolored, or altered.
+
+### Color Palette
+
+| Color | Hex | Usage |
+| :---- | :-- | :---- |
+| **Probe Blue** | `#005BEF` | Primary brand color — buttons, links, active states, and key interface accents |
+| **Probe Light Blue** | *(secondary blue, teal-leaning)* | Secondary buttons, highlighted states |
+| **Probe Light** | `#DFF0F7` | Backgrounds, cards, and subtle accents |
+| **Probe Black** | `#000000` | Primary text and dark UI elements |
+
+### Typography
+
+Probe uses **Inter** as its primary typeface, applied across the interface in a range of weights to establish clear visual hierarchy — from light body text through bold headings and uppercase emphasis.
+
+### Buttons
+
+Buttons follow four consistent states across all primary actions (Signup, Login, Logout, Request Booking, Download):
+
+* **Primary (filled brand blue):** default active button state
+* **Secondary (filled light blue):** alternate emphasis or hover state
+* **Tertiary (light gray background):** lower-emphasis actions
+* **Disabled (gray, muted text):** unavailable or inactive actions
+
+This consistent button styling is applied across both the web dashboard and mobile application to maintain a unified interaction pattern.
+
+### Icons
+
+Probe uses a consistent icon set across the product for common actions and navigation:
+
+* Home
+* Devices / Battery
+* Live Data / Export
+* Settings
+* Bookings / Inventory
+
+Icons follow the same visual states as buttons — default (outlined), active/selected (filled blue), and inactive — to maintain consistency between navigation elements and interactive components.
+
+### Visual Design Principles
+
+* **Consistency:** UI components (buttons, icons, cards, navigation) follow the same styling patterns across web and mobile.
+* **Clarity:** Interfaces prioritize readability and clear calls to action, using Probe Blue to draw attention to primary actions.
+* **Accessibility:** Sufficient contrast is maintained between text and background colors to support readability.
+* **Simplicity:** Layouts avoid unnecessary visual clutter, keeping the focus on battery data, testing results, and platform workflows.

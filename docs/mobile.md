@@ -422,3 +422,16 @@ The mobile application forms part of the larger Probe ecosystem:
 ```
 
 The mobile application therefore acts as a field-facing interface while the FastAPI backend provides centralized authentication, business logic, data storage, and API access.
+
+
+### Mobile — Flutter / Dart
+
+The Flutter application follows Dart conventions.
+
+| Element   | Convention        | Example                         |
+| --------- | ----------------- | ------------------------------- |
+| Variables | `camelCase`       | `userRole`                      |
+| Functions | `camelCase`       | `handleLogout()`                |
+| Classes   | `PascalCase`      | `MetricGroupCard`               |
+| Files     | `snake_case.dart` | `device_registration_page.dart` |
+| Constants | `camelCase`       | `primaryBlue`                   |

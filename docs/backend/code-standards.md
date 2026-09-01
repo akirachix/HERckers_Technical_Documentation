@@ -1,9 +1,3 @@
-#  Code Standards
-
-Probe follows consistent coding conventions across the backend, web frontend, and mobile application. These standards improve readability, maintainability, and consistency across the codebase.
-
-##  Naming Conventions
-
 ### Backend — Python
 
 The FastAPI backend follows standard Python naming conventions.
@@ -16,33 +10,6 @@ The FastAPI backend follows standard Python naming conventions.
 | Classes         | `PascalCase` | `BatteryService`    |
 | Schemas         | `PascalCase` | `BatteryCreate`     |
 | Enums           | `PascalCase` | `BookingStatus`     |
-
-### Frontend — TypeScript / React
-
-The Next.js frontend follows JavaScript and React conventions.
-
-| Element         | Convention       | Example           |
-| --------------- | ---------------- | ----------------- |
-| Variables       | `camelCase`      | `batteryData`     |
-| Functions       | `camelCase`      | `submitBooking()` |
-| Components      | `PascalCase`     | `BookingForm`     |
-| Types           | `PascalCase`     | `BookingPayload`  |
-| Component files | `PascalCase.tsx` | `BookingForm.tsx` |
-| Utility files   | `camelCase.ts`   | `api.ts`          |
-
-### Mobile — Flutter / Dart
-
-The Flutter application follows Dart conventions.
-
-| Element   | Convention        | Example                         |
-| --------- | ----------------- | ------------------------------- |
-| Variables | `camelCase`       | `userRole`                      |
-| Functions | `camelCase`       | `handleLogout()`                |
-| Classes   | `PascalCase`      | `MetricGroupCard`               |
-| Files     | `snake_case.dart` | `device_registration_page.dart` |
-| Constants | `camelCase`       | `primaryBlue`                   |
-
----
 
 ##  Folder & File Structure
 
@@ -111,26 +78,6 @@ Common status codes include:
 
 Error messages should be clear enough to support debugging without exposing sensitive information.
 
----
-
-##  Frontend Error Handling
-
-Frontend API requests should be handled using `try/catch`.
-
-```typescript
-try {
-    const response = await submitBooking(payload);
-    // Handle successful response
-} catch (error) {
-    console.error("Booking request failed:", error);
-    setError("Unable to complete booking request.");
-}
-```
-
-User-facing errors should provide clear feedback instead of exposing raw backend errors whenever possible.
-
----
-
 ##  Logging
 
 Backend errors and deployment issues can be investigated through application logs.
@@ -155,14 +102,12 @@ Logs must not contain sensitive information such as:
 * API secrets
 * Other private configuration values
 
----
-
 ##  Code Organization Principles
 
 When contributing to Probe:
 
 * Follow the existing project structure.
-* Use the appropriate naming convention for each language.
+* Use the appropriate naming convention.
 * Keep business logic inside service layers.
 * Keep database operations inside repositories.
 * Keep API routes inside routers.

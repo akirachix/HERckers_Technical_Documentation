@@ -30,7 +30,7 @@ npm install
 Create a `.env.local` file in the project root:
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_URL=https://probe-herckers-3325e295df63.herokuapp.com
 ```
 
 For the deployed application, `NEXT_PUBLIC_API_URL` should point to the hosted backend API.
@@ -46,7 +46,7 @@ npm run dev
 The dashboard will be available at:
 
 ```text
-http://localhost:3000
+https://herckersdashboard-3-fue8h51cl-gracemwais-projects.vercel.app
 ```
 
 ---
@@ -139,6 +139,31 @@ The structure separates application routes from reusable UI components and commu
 
 ---
 
+##  Component Structure
+
+Reusable UI components live in `app/components/` and are shared across the application's routes. Each component handles a focused piece of the interface.
+
+| Component | Responsibility |
+| :-------- | :-------------- |
+| **`battery-dashboard.tsx`** | Displays battery testing data and metrics on the dashboard. |
+| **`booking-nav.tsx`** | Provides navigation specific to booking-related pages. |
+| **`BookingForm.tsx`** | Handles the form and submission flow for creating a battery booking. |
+| **`device-registered-modal.tsx`** | Displays confirmation feedback after a device has been successfully registered. |
+| **`device-registry.tsx`** | Renders the device registry interface for viewing and managing registered devices. |
+| **`inventory-dashboard.tsx`** | Displays available battery inventory and stock status. |
+| **`landing-page.tsx`** | Renders the application's landing page content. |
+| **`login-form.tsx`** | Handles user login input and authentication submission. |
+| **`main-content.tsx`** | Provides the main content wrapper/layout used across dashboard pages. |
+| **`profile-page.tsx`** | Displays authenticated user profile information. |
+| **`RecyclerCard.tsx`** | Displays summary information for a recycler entity. |
+| **`register-device-form.tsx`** | Handles the form and submission flow for registering a new device. |
+| **`sidebar.tsx`** | Provides the main sidebar navigation for the dashboard. |
+| **`signup-form.tsx`** | Handles new user signup input and submission. |
+
+Component-specific styling is co-located using CSS Modules, such as `auth-form.module.css`, `landing-page.module.css`, and `profile-page.module.css`, keeping styles scoped to their corresponding component.
+
+---
+
 ##  State Propagation, Token Management and Route Security
 
 ### Network Communication Core
@@ -213,6 +238,61 @@ JWT Authorization Header
 FastAPI Backend
  ↓
 Booking Endpoint
+```
+
+---
+
+##  API Integration & API Service
+
+### API Service Layer
+
+All backend communication is routed through a centralized API service defined in:
+
+```text
+app/lib/api.ts
+```
+
+Rather than individual components implementing their own `fetch` logic, each component calls a shared function from this service layer. This keeps request construction, authentication, and error handling consistent across the application.
+
+### Integration Pattern
+
+A typical API integration follows this pattern:
+
+1. A component calls a function exported from `app/lib/api.ts` (e.g., `submitBookingCreation`).
+2. The service function builds the target URL using `process.env.NEXT_PUBLIC_API_URL`.
+3. `getAuthHeaders()` attaches the JWT token, if available, to the request headers.
+4. The request is sent to the FastAPI backend using `fetch`.
+5. The response is checked for errors; failed requests throw an `Error` with the backend's returned detail message.
+6. On success, the parsed JSON response is returned to the calling component.
+
+### Endpoints Used
+
+The frontend integrates with the following backend resources:
+
+```text
+/users/
+/devices/
+/batteries/
+/v1/sensor-readings/
+/bookings/
+```
+
+### Example: Authenticated Request Headers
+
+```typescript
+const getAuthHeaders = (): Record<string, string> => {
+  const token =
+    typeof window !== "undefined"
+      ? localStorage.getItem("probe_token")
+      : null;
+
+  return {
+    "Content-Type": "application/json",
+    ...(token && {
+      "Authorization": `Bearer ${token}`,
+    }),
+  };
+};
 ```
 
 ---
@@ -313,3 +393,16 @@ This creates a consistent communication layer between the Next.js frontend and t
 ```
 
 Centralizing network communication reduces duplicated request logic and provides a consistent approach to authentication and API error handling throughout the application.
+
+---
+
+##  Code Standards
+
+Frontend code follows the project-wide naming conventions, folder structure, and error handling patterns documented in [Code Standards](../code-standards).
+
+Key frontend-specific points:
+
+* Components use `PascalCase.tsx` (e.g., `BookingForm.tsx`)
+* Utility files use `camelCase.ts` (e.g., `api.ts`)
+* API requests are wrapped in `try/catch`, with user-facing error messages rather than raw backend errors surfaced to the UI
+
