@@ -68,7 +68,6 @@ app/
 │   │   └── route.ts
 │   ├── booking-dashboard/
 │   │   └── booking.types.ts
-│   ├── bookingreport/
 │   ├── dashboard/
 │   ├── device-registry/
 │   ├── inventory/
