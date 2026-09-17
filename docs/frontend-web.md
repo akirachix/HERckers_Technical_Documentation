@@ -46,7 +46,7 @@ npm run dev
 The dashboard will be available at:
 
 ```text
-https://herckersdashboard-3-fue8h51cl-gracemwais-projects.vercel.app
+https://herckersdashboard-seven.vercel.app/
 ```
 
 ---
@@ -68,7 +68,6 @@ app/
 │   │   └── route.ts
 │   ├── booking-dashboard/
 │   │   └── booking.types.ts
-│   ├── bookingreport/
 │   ├── dashboard/
 │   ├── device-registry/
 │   ├── inventory/
